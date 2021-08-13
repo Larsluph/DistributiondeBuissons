@@ -36,17 +36,6 @@
             tools:text="Christel" />
 
         <TextView
-            android:id="@+id/textViewGreen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingTop="@dimen/dividerPadHeight"
-            android:paddingBottom="@dimen/dividerPadHeight"
-            android:textColor="@color/green"
-            android:textSize="@dimen/textSize"
-            tools:text="Lorianne\nKikobiso" />
-
-        <TextView
             android:id="@+id/textViewBlue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,6 +45,17 @@
             android:textColor="@color/blue"
             android:textSize="@dimen/textSize"
             tools:text="Aurèle\nISIS" />
+
+        <TextView
+            android:id="@+id/textViewGreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="@dimen/dividerPadHeight"
+            android:paddingBottom="@dimen/dividerPadHeight"
+            android:textColor="@color/green"
+            android:textSize="@dimen/textSize"
+            tools:text="Lorianne\nKikobiso" />
 
         <TextView
             android:id="@+id/textViewAny"
