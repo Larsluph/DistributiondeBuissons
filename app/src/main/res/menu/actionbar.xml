@@ -4,10 +4,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/minus_actionbar"
+        android:enabled="true"
+        android:icon="@drawable/minus_1"
+        android:title="-1"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/reset_actionbar"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Aujourd'hui"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/plus_actionbar"
+        android:enabled="true"
+        android:icon="@drawable/plus_1"
+        android:title="+1"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/user_actionbar"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="Utilisateur"
         android:visible="true"
-        app:showAsAction="always|withText" />
+        app:showAsAction="ifRoom" />
 </menu>

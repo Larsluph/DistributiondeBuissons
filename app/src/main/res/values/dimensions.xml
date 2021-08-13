@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="smallPad">24dp</dimen>
-    <dimen name="largePad">32dp</dimen>
+    <dimen name="largeSeparator">20dp</dimen>
 
-    <dimen name="largeTextSize">22sp</dimen>
-    <dimen name="smallTextSize">17sp</dimen>
+    <dimen name="dividerPadWidth">32dp</dimen>
+    <dimen name="dividerPadHeight">10dp</dimen>
+
+    <dimen name="textSize">23sp</dimen>
 </resources>

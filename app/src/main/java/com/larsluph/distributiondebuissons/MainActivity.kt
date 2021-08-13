@@ -1,13 +1,12 @@
 package com.larsluph.distributiondebuissons
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import java.util.*
 
 
@@ -23,15 +22,20 @@ class MainActivity : AppCompatActivity() {
             field = value
             updateDisplay()
         }
+    private var today: Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        set(value) {
+            field = value
+            updateDisplay()
+        }
+    private var lastColor: Int? = null
 
-    private val users: Array<String> = arrayOf("Christel", "Lorianne", "Doro", "Aisha", "Aurèle", "Claudie", "Eva", "Sandrine", "Tulya", "Isabelle", "Jocelyne", "Angie", "Amandine", "Christian")
-    private val aliases: Array<String> = arrayOf("Christel", "Lorianne", "Pupuce", "Kikobiso", "Aurèle", "ISIS", "Eva 21200", "GlobeCookeuse", "Lila", "Tatazaza", "Jocelyne", "Mrs JONES Angie", "Paradises'Isle", "TAZ'ISLAND")
-    private val buissons: Array<Int> = arrayOf(RED, ANY, ANY, BLUE, ANY, ANY, BLUE, ANY, GREEN, ANY, GREEN, ANY, ANY)
-    private var txtIds: Array<Int> = arrayOf(R.id.textView1, R.id.textView2, R.id.textView3, R.id.textView4, R.id.textView5, R.id.textView6, R.id.textView7, R.id.textView8, R.id.textView9, R.id.textView10, R.id.textView11, R.id.textView12, R.id.textView13)
+    private val users: Array<String> = arrayOf("Christel", "Lorianne", "Doro", "Aisha", "Aurèle", "Claudie", "Eva", "Sandrine", "Tulya", "Isabelle", "Jocelyne", "Angie", "Amandine", "Christian", "Sam")
+    private val aliases: Array<String> = arrayOf("Christel", "Lorianne", "Pupuce", "Kikobiso", "Aurèle", "ISIS", "Eva 21200", "GlobeCookeuse", "Lila", "Tatazaza", "Jocelyne", "Mrs JONES Angie", "Paradises'Isle", "TAZ'ISLAND", "Sam")
+    private val buissons: Array<Int> = arrayOf(RED, ANY, ANY, BLUE, ANY, ANY, BLUE, ANY, ANY, GREEN, ANY, GREEN, ANY, ANY)
     private var isPopupOpened: Boolean = false
+    private val neutralDay = users.size
 
     private fun cycleUserArray(arr: Array<Int>, i: Int): Array<Int> {
-        val neutralDay = users.size
         if (i % neutralDay == 0) return Array(buissons.size) { ANY }
 
         val index = i % neutralDay - 1
@@ -39,26 +43,6 @@ class MainActivity : AppCompatActivity() {
     }
     private fun cycleDayArray(arr: Array<String>, i: String): Array<String> {
         return arr.sliceArray(arr.indexOf(i) + 1 until arr.count()) + arr.sliceArray(0 until arr.indexOf(i))
-    }
-
-    private fun formatBuisson(i: Int): String {
-        return when(i) {
-            0 -> "Rien (ou temporaire)"
-            1 -> "Rouge"
-            2 -> "Bleu"
-            3 -> "Vert"
-            else -> ""
-        }
-    }
-
-    private fun getTextColor(i: Int): Int {
-        return ResourcesCompat.getColor(resources, when(i) {
-            0 -> R.color.any
-            1 -> R.color.red
-            2 -> R.color.blue
-            3 -> R.color.green
-            else -> 0
-        }, null)
     }
 
     private fun selectIdentity() {
@@ -71,17 +55,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateDisplay() {
-        val today: Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         Log.d(null, today.toString())
         val dests = cycleDayArray(aliases, currentUser)
         val buiss = cycleUserArray(buissons, today)
 
-        findViewById<TextView>(R.id.selectedTextView).text = "Utilisateur Selectionné : $currentUser"
+        findViewById<TextView>(R.id.selectedTextView).text = "Jour $today : $currentUser"
+
+        if (true) {
+            findViewById<TextView>(R.id.textViewRed).text = ""
+            findViewById<TextView>(R.id.textViewGreen).text = ""
+            findViewById<TextView>(R.id.textViewBlue).text = ""
+            findViewById<TextView>(R.id.textViewAny).text = ""
+        } else {
+            findViewById<TextView>(R.id.textViewRed).text = "Rouge :\n"
+            findViewById<TextView>(R.id.textViewGreen).text = "Vert :\n"
+            findViewById<TextView>(R.id.textViewBlue).text = "Bleu :\n"
+            findViewById<TextView>(R.id.textViewAny).text = "Temporaire ou Rien :\n"
+        }
 
         for (i in 0 until dests.count()) {
-            val txt: TextView = findViewById(txtIds[i])
-            txt.text = "${dests[i]} : ${formatBuisson(buiss[i])}"
-            txt.setTextColor(getTextColor(buiss[i]))
+            val txt: TextView = findViewById(when (buiss[i]) {
+                RED -> R.id.textViewRed
+                GREEN -> R.id.textViewGreen
+                BLUE -> R.id.textViewBlue
+                else -> R.id.textViewAny
+            })
+
+            when {
+                txt.text == "" -> txt.text = txt.text.toString() + dests[i]
+                lastColor != buiss[i] && buiss[i] == ANY -> txt.text = txt.text.toString() + "\n\n" + dests[i]
+                else -> txt.text = txt.text.toString() + "\n" + dests[i]
+            }
+
+            lastColor = buiss[i]
         }
     }
 
@@ -105,7 +111,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.user_actionbar) selectIdentity()
-        return super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.reset_actionbar -> today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+            R.id.minus_actionbar -> today -= 1
+            R.id.plus_actionbar -> today += 1
+            R.id.user_actionbar -> selectIdentity()
+        }
+        return true
     }
 }
