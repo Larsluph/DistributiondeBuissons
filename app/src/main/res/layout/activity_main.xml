@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -21,28 +22,29 @@
             android:gravity="center_horizontal"
             android:paddingTop="@dimen/largeSeparator"
             android:paddingBottom="@dimen/largeSeparator"
+            android:textColor="@color/white"
             android:textSize="@dimen/textSize"
             tools:text="Jour $today : $currentUser" />
 
         <TextView
-            android:id="@+id/textViewRed"
+            android:id="@+id/textViewYellow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingTop="@dimen/dividerPadHeight"
             android:paddingBottom="@dimen/dividerPadHeight"
-            android:textColor="@color/red"
+            android:textColor="@color/yellow"
             android:textSize="@dimen/textSize"
             tools:text="Christel" />
 
         <TextView
-            android:id="@+id/textViewBlue"
+            android:id="@+id/textViewOrange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingTop="@dimen/dividerPadHeight"
             android:paddingBottom="@dimen/dividerPadHeight"
-            android:textColor="@color/blue"
+            android:textColor="@color/orange"
             android:textSize="@dimen/textSize"
             tools:text="Aurèle\nISIS" />
 
