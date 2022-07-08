@@ -11,7 +11,7 @@ import java.util.*
 
 
 const val ANY: Int = 0
-const val YELLOW: Int = 1
+const val PURPLE: Int = 1
 const val ORANGE: Int = 2
 const val GREEN: Int = 3
 
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     private val users: Array<String> = arrayOf("Christel", "Lorianne", "Doro", "Aisha", "Aurèle", "Claudie", "Eva", "Sandrine", "Tulya", "Isabelle", "Jocelyne", "Angie", "Amandine", "Christian", "Sam")
     private val aliases: Array<String> = arrayOf("Christel", "Lorianne", "Pupuce", "Kikobiso", "Aurèle", "ISIS", "Eva 21200", "GlobeCookeuse", "Lila", "Tatazaza", "Jocelyne", "Mrs JONES Angie", "Paradises'Isle", "TAZ'ISLAND", "Sam")
-    private val buissons: Array<Int> = arrayOf(YELLOW, ANY, ANY, ORANGE, ANY, ANY, GREEN, ANY, ANY, ORANGE, ANY, GREEN, ANY, ANY)
+    private val buissons: Array<Int> = arrayOf(PURPLE, ANY, ANY, ORANGE, ANY, ANY, GREEN, ANY, ANY, ORANGE, ANY, GREEN, ANY, ANY)
     private var isPopupOpened: Boolean = false
     private val neutralDay = users.size
 
@@ -61,18 +61,18 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.selectedTextView).text = "Jour $today : $currentUser"
 
-        findViewById<TextView>(R.id.textViewYellow).text = ""
+        findViewById<TextView>(R.id.textViewPurple).text = ""
         findViewById<TextView>(R.id.textViewGreen).text = ""
         findViewById<TextView>(R.id.textViewOrange).text = ""
         findViewById<TextView>(R.id.textViewAny).text = ""
-//        findViewById<TextView>(R.id.textViewYellow).text = "Rouge :\n"
+//        findViewById<TextView>(R.id.textViewPurple).text = "Rouge :\n"
 //        findViewById<TextView>(R.id.textViewGreen).text = "Vert :\n"
 //        findViewById<TextView>(R.id.textViewOrange).text = "Bleu :\n"
 //        findViewById<TextView>(R.id.textViewAny).text = "Temporaire ou Rien :\n"
 
         for (i in 0 until dests.count()) {
             val txt: TextView = findViewById(when (buiss[i]) {
-                YELLOW -> R.id.textViewYellow
+                PURPLE -> R.id.textViewPurple
                 GREEN -> R.id.textViewGreen
                 ORANGE -> R.id.textViewOrange
                 else -> R.id.textViewAny

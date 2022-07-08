@@ -27,13 +27,13 @@
             tools:text="Jour $today : $currentUser" />
 
         <TextView
-            android:id="@+id/textViewYellow"
+            android:id="@+id/textViewPurple"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingTop="@dimen/dividerPadHeight"
             android:paddingBottom="@dimen/dividerPadHeight"
-            android:textColor="@color/yellow"
+            android:textColor="@color/purple"
             android:textSize="@dimen/textSize"
             tools:text="Christel" />
 
