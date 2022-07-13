@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
         }
     private var lastColor: Int? = null
 
-    private val users: Array<String> = arrayOf("Christel", "Lorianne", "Doro", "Aisha", "Aurèle", "Claudie", "Eva", "Sandrine", "Tulya", "Isabelle", "Jocelyne", "Angie", "Amandine", "Christian", "Sam")
-    private val aliases: Array<String> = arrayOf("Christel", "Lorianne", "Pupuce", "Kikobiso", "Aurèle", "ISIS", "Eva 21200", "GlobeCookeuse", "Lila", "Tatazaza", "Jocelyne", "Mrs JONES Angie", "Paradises'Isle", "TAZ'ISLAND", "Sam")
+    private val users: Array<String> = arrayOf("Christel", "Lorianne", "Doro", "Aisha", "Aurèle", "Claudie", "Marie-Laurence", "Sandrine", "Tulya", "Isabelle", "Jocelyne", "Angie", "Amandine", "Christian", "Sam")
+    private val aliases: Array<String> = arrayOf("Christel", "Lorianne", "Pupuce", "Kikobiso", "Aurèle", "ISIS", "Guizmo", "GlobeCookeuse", "Lila", "Tatazaza", "Jocelyne", "Mrs JONES Angie", "Paradises'Isle", "TAZ'ISLAND", "Sam")
     private val buissons: Array<Int> = arrayOf(PURPLE, ANY, ANY, ORANGE, ANY, ANY, GREEN, ANY, ANY, ORANGE, ANY, GREEN, ANY, ANY)
     private var isPopupOpened: Boolean = false
     private val neutralDay = users.size
