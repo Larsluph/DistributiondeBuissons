@@ -7,17 +7,13 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.larsluph.distributiondebuissons.Colors.*
 import java.util.*
 
 
-const val ANY: Int = 0
-const val PURPLE: Int = 1
-const val ORANGE: Int = 2
-const val GREEN: Int = 3
-
 class MainActivity : AppCompatActivity() {
 
-    private var currentUser: String = ""
+    private var currentUser: User? = null
         set(value) {
             field = value
             updateDisplay()
@@ -27,37 +23,60 @@ class MainActivity : AppCompatActivity() {
             field = value
             updateDisplay()
         }
-    private var lastColor: Int? = null
+    private var lastColor: Colors? = null
 
-    private val users: Array<String> = arrayOf("Christel", "Lorianne", "Doro", "Aisha", "Aurèle", "Claudie", "Marie-Laurence", "Sandrine", "Tulya", "Isabelle", "Jocelyne", "Angie", "Amandine", "Christian", "Sam")
-    private val aliases: Array<String> = arrayOf("Christel", "Lorianne", "Pupuce", "Kikobiso", "Aurèle", "ISIS", "Guizmo", "GlobeCookeuse", "Lila", "Tatazaza", "Jocelyne", "Mrs JONES Angie", "Paradises'Isle", "TAZ'ISLAND", "Sam")
-    private val buissons: Array<Int> = arrayOf(PURPLE, ANY, ANY, ORANGE, ANY, ANY, GREEN, ANY, ANY, ORANGE, ANY, GREEN, ANY, ANY)
+    private val users: Array<User> = arrayOf(
+        User("Christel", "Christel"),
+        User("Lorianne", "Lorianne"),
+        User("Doro", "Pupuce"),
+        User("Aisha", "Kikobiso"),
+        User("Aurèle", "Aurèle"),
+        User("Claudie", "ISIS"),
+        User("Marie-Laurence", "Guizmo"),
+        User("Sandrine", "GlobeCookeuse"),
+        User("Tulya", "Lila"),
+        User("Isabelle", "Tatazaza"),
+        User("Jocelyne", "Jocelyne"),
+        User("Angie", "Mrs JONES Angie"),
+        User("Amandine", "Paradises'Isle"),
+        User("Christian", "TAZ'ISLAND"),
+        User("Sam", "Sam")
+    )
+    private val buissons: Array<Colors> = arrayOf(PURPLE, ANY, ANY, ORANGE, ANY, ANY, GREEN, ANY, ANY, ORANGE, ANY, GREEN, ANY, ANY)
     private var isPopupOpened: Boolean = false
     private val neutralDay = users.size
 
-    private fun cycleUserArray(arr: Array<Int>, i: Int): Array<Int> {
+    private fun cycleDayArray(arr: Array<Colors>, i: Int): Array<Colors> {
         if (i % neutralDay == 0 || i == 31) return Array(buissons.size) { ANY }
 
         val index = i % neutralDay - 1
         return arr.sliceArray(arr.count()-index until arr.count()) + arr.sliceArray(0 until arr.count()-index)
     }
-    private fun cycleDayArray(arr: Array<String>, i: String): Array<String> {
+    private fun cycleUserArray(arr: Array<User>, i: User): Array<User> {
         return arr.sliceArray(arr.indexOf(i) + 1 until arr.count()) + arr.sliceArray(0 until arr.indexOf(i))
     }
 
     private fun selectIdentity() {
         isPopupOpened = true
 
+        val names = (users.map { it.name }).toTypedArray()
+
         AlertDialog.Builder(this)
                 .setTitle("Qui êtes-vous ?")
-                .setItems(users) { _, which -> currentUser = aliases[which];isPopupOpened = false }
+                .setItems(names) { _, which ->
+                    run {
+                        currentUser = users[which]
+                        isPopupOpened = false
+                    }
+                }
                 .show()
     }
 
     private fun updateDisplay() {
         Log.d(null, today.toString())
-        val dests = cycleDayArray(aliases, currentUser)
-        val buiss = cycleUserArray(buissons, today)
+
+        val dests = cycleUserArray(users, currentUser!!)
+        val buiss = cycleDayArray(buissons, today)
 
         findViewById<TextView>(R.id.selectedTextView).text = "Jour $today : $currentUser"
 
@@ -65,26 +84,30 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.textViewGreen).text = ""
         findViewById<TextView>(R.id.textViewOrange).text = ""
         findViewById<TextView>(R.id.textViewAny).text = ""
-//        findViewById<TextView>(R.id.textViewPurple).text = "Rouge :\n"
-//        findViewById<TextView>(R.id.textViewGreen).text = "Vert :\n"
-//        findViewById<TextView>(R.id.textViewOrange).text = "Bleu :\n"
-//        findViewById<TextView>(R.id.textViewAny).text = "Temporaire ou Rien :\n"
 
-        for (i in 0 until dests.count()) {
-            val txt: TextView = findViewById(when (buiss[i]) {
-                PURPLE -> R.id.textViewPurple
-                GREEN -> R.id.textViewGreen
-                ORANGE -> R.id.textViewOrange
-                else -> R.id.textViewAny
-            })
+        val userMap: Map<User, Colors> = (dests zip buiss).associate { it.first to it.second }
 
-            when {
-                txt.text == "" -> txt.text = txt.text.toString() + dests[i]
-                lastColor != buiss[i] && buiss[i] == ANY -> txt.text = txt.text.toString() + "\n\n" + dests[i]
-                else -> txt.text = txt.text.toString() + "\n" + dests[i]
+        for ((dest, buis) in userMap.entries) {
+            val pseudo = dest.pseudo
+
+            val txt: TextView = findViewById(
+                when (buis) {
+                    PURPLE -> R.id.textViewPurple
+                    GREEN -> R.id.textViewGreen
+                    ORANGE -> R.id.textViewOrange
+                    else -> R.id.textViewAny
+                }
+            )
+
+            val newlineCount = when {
+                txt.text == "" -> 0
+                lastColor != buis && buis == ANY -> 2
+                else -> 1
             }
 
-            lastColor = buiss[i]
+            txt.text = txt.text.toString() + "\n".repeat(newlineCount) + pseudo
+
+            lastColor = buis
         }
     }
 
@@ -92,12 +115,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (currentUser == "" && !isPopupOpened) selectIdentity()
+        if (currentUser == null && !isPopupOpened) selectIdentity()
     }
 
     override fun onResume() {
         super.onResume()
-        if (currentUser == "" && !isPopupOpened) {
+        if (currentUser == null && !isPopupOpened) {
             selectIdentity()
         }
     }
@@ -115,9 +138,9 @@ class MainActivity : AppCompatActivity() {
         val maxMonthDay = calendar.get(Calendar.DAY_OF_MONTH)
 
         when (item.itemId) {
-            R.id.reset_actionbar -> today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
             R.id.minus_actionbar -> today = if (today <= 1) 1 else today-1
             R.id.plus_actionbar -> today = if (today >= maxMonthDay) maxMonthDay else today+1
+            R.id.reset_actionbar -> today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
             R.id.user_actionbar -> selectIdentity()
         }
         return true
