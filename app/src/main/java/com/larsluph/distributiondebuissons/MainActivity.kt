@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         val names = (users.map { it.name }).toTypedArray()
 
         AlertDialog.Builder(this)
-                .setTitle("Qui êtes-vous ?")
+                .setTitle(getString(R.string.popup_user))
                 .setItems(names) { _, which ->
                     run {
                         currentUser = users[which]

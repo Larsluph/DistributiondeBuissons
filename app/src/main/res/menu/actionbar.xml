@@ -7,28 +7,28 @@
         android:id="@+id/minus_actionbar"
         android:enabled="true"
         android:icon="@drawable/minus_1"
-        android:title="-1"
+        android:title="@string/actionbar_minus1"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/plus_actionbar"
+        android:enabled="true"
+        android:icon="@drawable/plus_1"
+        android:title="@string/actionbar_plus1"
         android:visible="true"
         app:showAsAction="always" />
     <item
         android:id="@+id/reset_actionbar"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_today"
-        android:title="Aujourd'hui"
+        android:title="@string/actionbar_today"
         android:visible="true"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/plus_actionbar"
-        android:enabled="true"
-        android:icon="@drawable/plus_1"
-        android:title="+1"
-        android:visible="true"
-        app:showAsAction="always" />
     <item
         android:id="@+id/user_actionbar"
         android:enabled="true"
         android:icon="@android:drawable/ic_menu_preferences"
-        android:title="Utilisateur"
+        android:title="@string/actionbar_user"
         android:visible="true"
         app:showAsAction="ifRoom" />
 </menu>
