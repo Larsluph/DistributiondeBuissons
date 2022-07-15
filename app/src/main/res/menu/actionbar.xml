@@ -31,4 +31,11 @@
         android:title="@string/actionbar_user"
         android:visible="true"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/toggle_actionbar"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:title="@string/actionbar_toggle1"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
 </menu>

@@ -23,6 +23,11 @@ class MainActivity : AppCompatActivity() {
             field = value
             updateDisplay()
         }
+    private var isLogicReverted: Boolean = false
+        set(value) {
+            field = value
+            updateDisplay()
+        }
     private var lastColor: Colors? = null
 
     private val users: Array<User> = arrayOf(
@@ -46,12 +51,13 @@ class MainActivity : AppCompatActivity() {
     private var isPopupOpened: Boolean = false
     private val neutralDay = users.size
 
-    private fun cycleDayArray(arr: Array<Colors>, i: Int): Array<Colors> {
+    private fun cycleColorArray(arr: Array<Colors>, i: Int): Array<Colors> {
         if (i % neutralDay == 0 || i == 31) return Array(buissons.size) { ANY }
 
         val index = i % neutralDay - 1
         return arr.sliceArray(arr.count()-index until arr.count()) + arr.sliceArray(0 until arr.count()-index)
     }
+
     private fun cycleUserArray(arr: Array<User>, i: User): Array<User> {
         return arr.sliceArray(arr.indexOf(i) + 1 until arr.count()) + arr.sliceArray(0 until arr.indexOf(i))
     }
@@ -75,18 +81,39 @@ class MainActivity : AppCompatActivity() {
     private fun updateDisplay() {
         Log.d(null, today.toString())
 
-        val dests = cycleUserArray(users, currentUser!!)
-        val buiss = cycleDayArray(buissons, today)
-
-        findViewById<TextView>(R.id.selectedTextView).text = "Jour $today : $currentUser"
+        findViewById<TextView>(R.id.selectedTextView).text = "Jour $today : ${currentUser!!.pseudo}"
+        findViewById<TextView>(R.id.modeTextView).text = if (isLogicReverted) getString(R.string.text_toggle2) else getString(R.string.text_toggle1)
 
         findViewById<TextView>(R.id.textViewPurple).text = ""
         findViewById<TextView>(R.id.textViewGreen).text = ""
         findViewById<TextView>(R.id.textViewOrange).text = ""
         findViewById<TextView>(R.id.textViewAny).text = ""
 
-        val userMap: Map<User, Colors> = (dests zip buiss).associate { it.first to it.second }
+        val buiss = cycleColorArray(buissons, today)
+        val userMap: Map<User, Colors>
 
+        if (isLogicReverted) {
+            // Reception
+            val others = cycleUserArray(users, currentUser!!)
+            userMap = mutableMapOf()
+
+            for (user in others) {
+                val dests = cycleUserArray(users, user)
+                val otherMap: Map<User, Colors> = (dests zip buiss).associate { it.first to it.second }
+                userMap[user] = otherMap[currentUser]!!
+            }
+        }
+        else {
+            // Distribution
+            val dests = cycleUserArray(users, currentUser!!)
+
+            userMap = (dests zip buiss).associate { it.first to it.second }
+        }
+
+        renderUserMap(userMap)
+    }
+
+    private fun renderUserMap(userMap: Map<User, Colors>) {
         for ((dest, buis) in userMap.entries) {
             val pseudo = dest.pseudo
 
@@ -142,6 +169,7 @@ class MainActivity : AppCompatActivity() {
             R.id.plus_actionbar -> today = if (today >= maxMonthDay) maxMonthDay else today+1
             R.id.reset_actionbar -> today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
             R.id.user_actionbar -> selectIdentity()
+            R.id.toggle_actionbar -> isLogicReverted = !isLogicReverted
         }
         return true
     }
