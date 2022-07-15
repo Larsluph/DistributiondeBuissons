@@ -13,6 +13,8 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var menu: Menu
+
     private var currentUser: User? = null
         set(value) {
             field = value
@@ -83,6 +85,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.selectedTextView).text = "Jour $today : ${currentUser!!.pseudo}"
         findViewById<TextView>(R.id.modeTextView).text = if (isLogicReverted) getString(R.string.text_toggle2) else getString(R.string.text_toggle1)
+        menu.findItem(R.id.toggle_actionbar).title = if (isLogicReverted) getString(R.string.actionbar_toggle1) else getString(R.string.actionbar_toggle2)
 
         findViewById<TextView>(R.id.textViewPurple).text = ""
         findViewById<TextView>(R.id.textViewGreen).text = ""
@@ -154,6 +157,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.actionbar, menu)
+        if (menu != null) {
+            this.menu = menu
+        }
         return true
     }
 

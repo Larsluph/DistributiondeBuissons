@@ -4,11 +4,11 @@
     <string name="actionbar_plus1">+1</string>
     <string name="actionbar_today">Aujourd\'hui</string>
     <string name="actionbar_user">Utilisateur</string>
-    <string name="actionbar_toggle1">Toggle View</string>
-    <string name="actionbar_toggle2">TODO</string>
+    <string name="actionbar_toggle1">Distribution</string>
+    <string name="actionbar_toggle2">Réception</string>
 
     <string name="popup_user">"Qui êtes-vous ?"</string>
 
     <string name="text_toggle1">Distribution</string>
-    <string name="text_toggle2">Reception</string>
+    <string name="text_toggle2">Réception</string>
 </resources>
