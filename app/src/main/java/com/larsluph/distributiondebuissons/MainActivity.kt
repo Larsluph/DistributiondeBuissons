@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity() {
         User("Christel", "Christel"),
         User("Lorianne", "Lorianne"),
         User("Doro", "Pupuce"),
-        User("Aisha", "Kikobiso"),
-        User("Aurèle", "Aurèle"),
         User("Claudie", "ISIS"),
         User("Marie-Laurence", "Guizmo"),
         User("Sandrine", "GlobeCookeuse"),
@@ -49,9 +47,9 @@ class MainActivity : AppCompatActivity() {
         User("Christian", "TAZ'ISLAND"),
         User("Sam", "Sam")
     )
-    private val buissons: Array<Colors> = arrayOf(PURPLE, ANY, ANY, ORANGE, ANY, ANY, GREEN, ANY, ANY, ORANGE, ANY, GREEN, ANY, ANY)
+    private val buissons: Array<Colors> = arrayOf(PURPLE, ANY, ANY, GREEN, ANY, ORANGE, ANY, ANY, GREEN, ANY, ORANGE, ANY, PURPLE, ANY)
     private var isPopupOpened: Boolean = false
-    private val neutralDay = users.size
+    private val neutralDay = 15
 
     private fun cycleColorArray(arr: Array<Colors>, i: Int): Array<Colors> {
         if (i % neutralDay == 0 || i == 31) return Array(buissons.size) { ANY }
