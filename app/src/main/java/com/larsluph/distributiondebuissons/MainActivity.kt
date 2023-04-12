@@ -47,14 +47,14 @@ class MainActivity : AppCompatActivity() {
         User("Christian", "TAZ'ISLAND"),
         User("Sam", "Sam")
     )
-    private val buissons: Array<Colors> = arrayOf(PURPLE, ANY, ANY, GREEN, ANY, ORANGE, ANY, ANY, GREEN, ANY, ORANGE, ANY, PURPLE, ANY)
+    private val buissons: Array<Colors> = arrayOf(PURPLE, ANY, ORANGE, ANY, ANY, GREEN, ANY, ORANGE, ANY, GREEN, ANY, ANY)
     private var isPopupOpened: Boolean = false
     private val neutralDay = 15
 
     private fun cycleColorArray(arr: Array<Colors>, i: Int): Array<Colors> {
         if (i % neutralDay == 0 || i == 31) return Array(buissons.size) { ANY }
 
-        val index = i % neutralDay - 1
+        val index = (i % neutralDay - 1) % arr.count()
         return arr.sliceArray(arr.count()-index until arr.count()) + arr.sliceArray(0 until arr.count()-index)
     }
 
