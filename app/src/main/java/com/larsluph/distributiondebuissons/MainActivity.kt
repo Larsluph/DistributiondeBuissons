@@ -7,8 +7,11 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.larsluph.distributiondebuissons.Colors.*
-import java.util.*
+import com.larsluph.distributiondebuissons.Colors.ANY
+import com.larsluph.distributiondebuissons.Colors.GREEN
+import com.larsluph.distributiondebuissons.Colors.ORANGE
+import com.larsluph.distributiondebuissons.Colors.PURPLE
+import java.util.Calendar
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,9 +48,10 @@ class MainActivity : AppCompatActivity() {
         User("Angie", "Mrs JONES Angie"),
         User("Amandine", "Paradises'Isle"),
         User("Christian", "TAZ'ISLAND"),
-        User("Sam", "Sam")
+        User("Sam", "Sam"),
+        User("Françoise", "Jhon")
     )
-    private val buissons: Array<Colors> = arrayOf(PURPLE, ANY, ORANGE, ANY, ANY, GREEN, ANY, ORANGE, ANY, GREEN, ANY, ANY)
+    private val buissons: Array<Colors> = arrayOf(PURPLE, ANY, ORANGE, ANY, ANY, GREEN, ANY, ORANGE, ANY, ANY, GREEN, ANY, ANY)
     private var isPopupOpened: Boolean = false
     private val neutralDay = 15
 
