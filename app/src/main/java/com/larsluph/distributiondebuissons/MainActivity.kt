@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         User("Amandine", "Paradises'Isle"),
         User("Christian", "TAZ'ISLAND"),
         User("Sam", "Sam"),
-        User("Françoise", "Jhon")
+        User("Stella", "Stella")
     )
     private val buissons: Array<Colors> = arrayOf(PURPLE, ANY, ORANGE, ANY, ANY, GREEN, ANY, ORANGE, ANY, ANY, GREEN, ANY, ANY)
     private var isPopupOpened: Boolean = false
