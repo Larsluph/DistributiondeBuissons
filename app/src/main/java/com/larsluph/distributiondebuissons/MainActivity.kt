@@ -1,5 +1,6 @@
 package com.larsluph.distributiondebuissons
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -85,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateDisplay() {
         Log.d(null, today.toString())
 
-        findViewById<TextView>(R.id.selectedTextView).text = "Jour $today : ${currentUser!!.pseudo}"
+        findViewById<TextView>(R.id.selectedTextView).text = getString(R.string.title_template, today, currentUser!!.pseudo)
         findViewById<TextView>(R.id.modeTextView).text = if (isLogicReverted) getString(R.string.text_toggle2) else getString(R.string.text_toggle1)
         menu.findItem(R.id.toggle_actionbar).title = if (isLogicReverted) getString(R.string.actionbar_toggle1) else getString(R.string.actionbar_toggle2)
 
@@ -137,6 +138,7 @@ class MainActivity : AppCompatActivity() {
                 else -> 1
             }
 
+            @SuppressLint("SetTextI18n")
             txt.text = txt.text.toString() + "\n".repeat(newlineCount) + pseudo
 
             lastColor = buis
@@ -167,15 +169,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val calendar: Calendar = Calendar.getInstance()
-        calendar.roll(Calendar.MONTH, true)
-        calendar.set(Calendar.DAY_OF_MONTH, 1)
-        calendar.add(Calendar.DAY_OF_MONTH, -1)
-        val maxMonthDay = calendar.get(Calendar.DAY_OF_MONTH)
 
         when (item.itemId) {
-            R.id.minus_actionbar -> today = if (today <= 1) 1 else today-1
-            R.id.plus_actionbar -> today = if (today >= maxMonthDay) maxMonthDay else today+1
-            R.id.reset_actionbar -> today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+            R.id.minus_actionbar -> {
+                calendar.set(Calendar.DAY_OF_MONTH, 1)
+                calendar.add(Calendar.DAY_OF_MONTH, -1)
+                val maxPrevMonthDay = calendar.get(Calendar.DAY_OF_MONTH)
+                today = if (today <= 1) maxPrevMonthDay else today -1
+            }
+            R.id.plus_actionbar -> {
+                calendar.roll(Calendar.MONTH, true)
+                calendar.set(Calendar.DAY_OF_MONTH, 1)
+                calendar.add(Calendar.DAY_OF_MONTH, -1)
+                val maxMonthDay = calendar.get(Calendar.DAY_OF_MONTH)
+                today = if (today >= maxMonthDay) 1 else today + 1
+            }
+            R.id.reset_actionbar -> today = calendar.get(Calendar.DAY_OF_MONTH)
             R.id.user_actionbar -> selectIdentity()
             R.id.toggle_actionbar -> isLogicReverted = !isLogicReverted
         }
