@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         User("Claudie", "ISIS"),
         User("Marie-Laurence", "Guizmo"),
         User("Sandrine", "GlobeCookeuse"),
-        User("Tulya", "Lila"),
+        User("Carole", "SarahLili"),
         User("Isabelle", "Tatazaza"),
         User("Jocelyne", "Jocelyne"),
         User("Angie", "Mrs JONES Angie"),
