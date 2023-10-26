@@ -1,11 +1,15 @@
 <resources>
+    <string name="packagename">com.larsluph.distributiondebuissons</string>
     <string name="app_name">Distributions de Buissons</string>
+    <string name="users_key">users</string>
+
     <string name="actionbar_minus1">-1</string>
     <string name="actionbar_plus1">+1</string>
     <string name="actionbar_today">Aujourd\'hui</string>
     <string name="actionbar_user">Utilisateur</string>
     <string name="actionbar_toggle1">Distribution</string>
     <string name="actionbar_toggle2">Réception</string>
+    <string name="actionbar_refresh">MAJ liste</string>
 
     <string name="popup_user">"Qui êtes-vous ?"</string>
 

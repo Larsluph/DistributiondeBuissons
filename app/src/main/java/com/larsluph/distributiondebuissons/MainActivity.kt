@@ -6,8 +6,15 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.Request.Method
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.larsluph.distributiondebuissons.Colors.ANY
 import com.larsluph.distributiondebuissons.Colors.GREEN
 import com.larsluph.distributiondebuissons.Colors.ORANGE
@@ -36,25 +43,11 @@ class MainActivity : AppCompatActivity() {
         }
     private var lastColor: Colors? = null
 
-    private val users: Array<User> = arrayOf(
-        User("Christel", "Christel"),
-        User("Lorianne", "Lorianne"),
-        User("Doro", "Pupuce"),
-        User("Claudie", "ISIS"),
-        User("Marie-Laurence", "Guizmo"),
-        User("Sandrine", "GlobeCookeuse"),
-        User("Carole", "SarahLili"),
-        User("Isabelle", "Tatazaza"),
-        User("Jocelyne", "Jocelyne"),
-        User("Angie", "Mrs JONES Angie"),
-        User("Amandine", "Paradises'Isle"),
-        User("Christian", "TAZ'ISLAND"),
-        User("Sam", "Sam"),
-        User("Stella", "Stella")
-    )
+    private var users: Array<User> = emptyArray()
     private val buissons: Array<Colors> = arrayOf(PURPLE, ANY, ORANGE, ANY, ANY, GREEN, ANY, ORANGE, ANY, ANY, GREEN, ANY, ANY)
     private var isPopupOpened: Boolean = false
     private val neutralDay = 15
+    private lateinit var queue: RequestQueue
 
     private fun cycleColorArray(arr: Array<Colors>, i: Int): Array<Colors> {
         if (i % neutralDay == 0 || i == 31) return Array(buissons.size) { ANY }
@@ -68,8 +61,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selectIdentity() {
-        isPopupOpened = true
+        if (isPopupOpened) return
 
+        isPopupOpened = true
         val names = (users.map { it.name }).toTypedArray()
 
         AlertDialog.Builder(this)
@@ -145,18 +139,52 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateUserList() {
+        val url = "https://gist.githubusercontent.com/Larsluph/6f9491535d7717d23b5a6f7d07cf1132/raw/data_buissons.json"
+
+        val request = JsonArrayRequest(Method.GET, url, null,
+            { response ->
+                users = Array(response.length()) { i ->
+                    val user = response.getJSONObject(i)
+                    User(user)
+                }
+                saveData()
+                Toast.makeText(this, "Users list updated!", Toast.LENGTH_SHORT).show()
+                selectIdentity()
+            },
+            { error -> Toast.makeText(this, error.message, Toast.LENGTH_LONG).show() })
+
+        queue.add(request)
+    }
+
+    private fun loadData(): Boolean {
+        val sp = getSharedPreferences(getString(R.string.packagename), MODE_PRIVATE)
+        val storeData = sp.getString(getString(R.string.users_key), "")
+        if (storeData.equals("")) {
+            return false
+        }
+
+        users = Gson().fromJson(storeData, object : TypeToken<Array<User>>() {}.type)
+        return true
+    }
+
+    private fun saveData() {
+        val sp = getSharedPreferences(getString(R.string.packagename), MODE_PRIVATE).edit()
+        sp.putString(getString(R.string.users_key), Gson().toJson(users))
+        sp.apply()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        if (currentUser == null && !isPopupOpened) selectIdentity()
+        queue = Volley.newRequestQueue(this)
     }
 
     override fun onResume() {
         super.onResume()
-        if (currentUser == null && !isPopupOpened) {
-            selectIdentity()
-        }
+
+        if (!loadData()) updateUserList()
+        else if (currentUser == null) selectIdentity()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -187,6 +215,7 @@ class MainActivity : AppCompatActivity() {
             R.id.reset_actionbar -> today = calendar.get(Calendar.DAY_OF_MONTH)
             R.id.user_actionbar -> selectIdentity()
             R.id.toggle_actionbar -> isLogicReverted = !isLogicReverted
+            R.id.refresh_actionbar -> updateUserList()
         }
         return true
     }

@@ -38,4 +38,11 @@
         android:title="@string/actionbar_toggle1"
         android:visible="true"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/refresh_actionbar"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:title="@string/actionbar_refresh"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
 </menu>
