@@ -1,0 +1,100 @@
+{
+  "users": [
+    {
+      "name": "Christel",
+      "pseudo": "Christel"
+    },
+    {
+      "name": "Lorianne",
+      "pseudo": "Lorianne"
+    },
+    {
+      "name": "Claudie",
+      "pseudo": "ISIS"
+    },
+    {
+      "name": "Angie",
+      "pseudo": "Mrs JONES Angie"
+    },
+    {
+      "name": "Amandine",
+      "pseudo": "Paradises'Isle"
+    },
+    {
+      "name": "Christian",
+      "pseudo": "TAZ'ISLAND"
+    },
+    {
+      "name": "Carole",
+      "pseudo": "SarahLili"
+    },
+    {
+      "name": "Lynne",
+      "pseudo": "Mumkin"
+    },
+    {
+      "name": "Stella",
+      "pseudo": "Stella"
+    },
+    {
+      "name": "Marie-Laurence",
+      "pseudo": "Guizmo"
+    },
+    {
+      "name": "Lily",
+      "pseudo": "Bastet"
+    },
+    {
+      "name": "Inconnu",
+      "pseudo": "Inconnu"
+    }
+  ],
+  "buissons": {
+    "values": [
+      "PURPLE",
+      "ANY",
+      "ORANGE",
+      "ANY",
+      "GREEN",
+      "ANY",
+      "GREEN",
+      "ANY",
+      "ANY",
+      "ORANGE",
+      "ANY"
+    ],
+    "shifts": {
+      "1": 0,
+      "2": 1,
+      "3": 2,
+      "4": 3,
+      "5": 4,
+      "6": 5,
+      "7": -1,
+      "8": 6,
+      "9": 7,
+      "10": 8,
+      "11": 9,
+      "12": 10,
+      "13": 0,
+      "14": -1,
+      "15": 0,
+      "16": 1,
+      "17": 2,
+      "18": 3,
+      "19": 4,
+      "20": 5,
+      "21": -1,
+      "22": 6,
+      "23": 7,
+      "24": 8,
+      "25": 9,
+      "26": 10,
+      "27": 0,
+      "28": -1,
+      "29": 0,
+      "30": 1,
+      "31": 2
+    }
+  }
+}
